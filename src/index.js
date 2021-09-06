@@ -11,5 +11,5 @@ app.get('/location', async (request, response) => {
     response.json(location)
 })
 
-app.listen(3001)
+app.listen(process.env.PORT || 3001)
 
