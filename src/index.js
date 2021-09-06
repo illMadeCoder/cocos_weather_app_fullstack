@@ -6,9 +6,12 @@ const app = express()
 app.use(cors())
 app.use(express.static('build'))
 
-app.get('/location', async (request, response) => {
-    location = await weatherService.get(request.query.lat, request.query.lng)
-    response.json(location)
+app.get('/api/location', async (request, response) => {
+    if (request.query.lat && request.query.lng) {
+        response.json(await weatherService.getbycoords(request.query.lat, request.query.lng))
+    } else if (request.query.zipcode) {
+        response.json(await weatherService.getbyzipcode(request.query.zipcode))
+    }
 })
 
 app.listen(process.env.PORT || 3001)
