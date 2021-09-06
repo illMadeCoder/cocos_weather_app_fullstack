@@ -6,33 +6,43 @@ const baseUrl =  `http://api.weatherstack.com/current?access_key=${accessKey}`
 const spoof = false
 const ctof = (c) => c*(9/5)+32
 
-function getbycoords(lat, lng) { 
+function getbycoords(lat, lng) {
     return axios.get(`http://api.geonames.org/findNearbyPostalCodesJSON?lat=${lat}&lng=${lng}&username=bebo`)
     .then(r => {
         // console.log(r)
-        const zipcode =  r.data.postalCodes[0].postalCode    
-             
+        const zipcode =  r.data.postalCodes[0].postalCode
+
         return axios.get(baseUrl + `&query=${zipcode}`)
-        .then(req => {        
-            return {temperature:Math.floor(ctof(req.data.current.temperature)),
-                    weatherCode:req.data.current.weather_code,
-                    zipcode: zipcode}
+        .then(req => {
+            const time = new Date(req.data.location.localtime)
+            return {
+                temperature:Math.floor(ctof(req.data.current.temperature)),
+                weatherCode:req.data.current.weather_code,
+                time: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+                zipcode: zipcode
+            }
         })
     })
 }
 
-function getbyzipcode(zipcode) {              
+function getbyzipcode(zipcode) {
     return axios.get(baseUrl + `&query=${zipcode}`)
     .then(req => {
-        var time = new Date();
-        return {temperature:Math.floor(ctof(req.data.current.temperature)),
+        var time = new Date(req.data.location.localtime);
+        return {
+                temperature:Math.floor(ctof(req.data.current.temperature)),
                 weatherCode:req.data.current.weather_code,
-                zipcode: zipcode}
+                zipcode: zipcode,
+                time:time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+            }
     })
-    
-}                    
-    
-    
+    .catch(err => {
+        console.error(err)
+    })
+
+}
+
+
 
 // eslint-disable-next-line import/no-anonymous-default-export
 module.exports =  {

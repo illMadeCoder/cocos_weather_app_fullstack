@@ -7,10 +7,15 @@ app.use(cors())
 app.use(express.static('build'))
 
 app.get('/api/location', async (request, response) => {
-    if (request.query.lat && request.query.lng) {
-        response.json(await weatherService.getbycoords(request.query.lat, request.query.lng))
-    } else if (request.query.zipcode) {
-        response.json(await weatherService.getbyzipcode(request.query.zipcode))
+    try {
+        if (request.query.lat && request.query.lng) {
+            response.json(await weatherService.getbycoords(request.query.lat, request.query.lng))
+        } else if (request.query.zipcode) {
+            response.json(await weatherService.getbyzipcode(request.query.zipcode))
+        }
+    } 
+    catch (err) {
+        console.log(err)
     }
 })
 
