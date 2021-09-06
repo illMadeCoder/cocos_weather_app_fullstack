@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./src/index.js",
     "dev": "powershell.exe -executionpolicy bypass -file ./node_modules/.bin/nodemon.ps1 ./src/index.js"
   },
   "keywords": [],

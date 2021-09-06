@@ -11,10 +11,10 @@ function get(lat, lng) {
     .then(r => {
         // console.log(r)
         const geozipcode =  r.data.postalCodes[0].postalCode    
-        console.log(baseUrl + `&query=${geozipcode}`)        
+             
         return axios.get(baseUrl + `&query=${geozipcode}`)
         .then(req => {
-            console.log(req)
+        
             var time = new Date();
             return {temperature:Math.floor(ctof(req.data.current.temperature)),
                     time:time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
