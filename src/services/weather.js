@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const accessKey = '223eb5ead2f2f020ce1bfa262fbbc8a7'
+const accessKey = '1c5ae1381f1f8a243b7b8a46317aab98'
 const baseUrl =  `http://api.weatherstack.com/current?access_key=${accessKey}`
 
 const spoof = false
