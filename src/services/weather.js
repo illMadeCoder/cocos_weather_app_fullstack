@@ -13,11 +13,8 @@ function getbycoords(lat, lng) {
         const zipcode =  r.data.postalCodes[0].postalCode    
              
         return axios.get(baseUrl + `&query=${zipcode}`)
-        .then(req => {
-        
-            var time = new Date();
+        .then(req => {        
             return {temperature:Math.floor(ctof(req.data.current.temperature)),
-                    time:time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
                     weatherCode:req.data.current.weather_code,
                     zipcode: zipcode}
         })
@@ -27,10 +24,8 @@ function getbycoords(lat, lng) {
 function getbyzipcode(zipcode) {              
     return axios.get(baseUrl + `&query=${zipcode}`)
     .then(req => {
-
         var time = new Date();
         return {temperature:Math.floor(ctof(req.data.current.temperature)),
-                time:time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
                 weatherCode:req.data.current.weather_code,
                 zipcode: zipcode}
     })
