@@ -1,10 +1,19 @@
 const express = require('express')
 const cors = require('cors')
 const weatherService = require('./services/weather')
+const { request, response } = require('express')
 
 const app = express()
 app.use(cors())
 app.use(express.static('build'))
+
+app.get('*',function(req,res,next){
+    if(req.headers['x-forwarded-proto']!='https')
+      res.redirect('https://'+req.headers.host+req.url)
+    else
+      next() /* Continue to other routes if we're not redirecting */
+  })
+  
 
 app.get('/api/location', async (request, response) => {
     try {
@@ -21,3 +30,4 @@ app.get('/api/location', async (request, response) => {
 
 app.listen(process.env.PORT || 3001)
 
+ 
