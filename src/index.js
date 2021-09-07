@@ -7,10 +7,11 @@ const app = express()
 app.use(cors())
 app.use(express.static('build'))
 
-app.get('*',function(req,res,next){
-    if(req.headers['x-forwarded-proto']!='https')
+app.get('*',function(req,res,next) {
+    if(req.headers['x-forwarded-proto']!='https') {
+      console.log('https://'+req.headers.host+req.url)
       res.redirect('https://'+req.headers.host+req.url)
-    else
+    } else
       next() /* Continue to other routes if we're not redirecting */
   })
   
@@ -24,7 +25,7 @@ app.get('/api/location', async (request, response) => {
         }
     } 
     catch (err) {
-        console.log(err)
+        console.error(err)
     }
 })
 
