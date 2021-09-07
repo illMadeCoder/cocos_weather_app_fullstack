@@ -6,8 +6,7 @@ const { request, response } = require('express')
 const app = express()
 
 app.get('*',function(req,res,next) {    
-    if(req.headers['x-forwarded-proto']!='https') {    
-      console.log('https://'+req.headers.host+req.url)
+    if(req.headers['x-forwarded-proto']!='https' && !/^localhost/.test(req.headers.host)) {    
       res.redirect('https://'+req.headers.host+req.url)
     } else {
       next() /* Continue to other routes if we're not redirecting */
