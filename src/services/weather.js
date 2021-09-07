@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const accessKey = '1c5ae1381f1f8a243b7b8a46317aab98'
+const accessKey = '464cb299432b1bf5fc79256c899db230'
 const baseUrl =  `http://api.weatherstack.com/current?access_key=${accessKey}`
 
 const spoof = false
@@ -13,7 +13,7 @@ function getbycoords(lat, lng) {
         const zipcode =  r.data.postalCodes[0].postalCode
 
         return axios.get(baseUrl + `&query=${zipcode}`)
-        .then(req => {
+        .then(req => {            
             const time = new Date(req.data.location.localtime)
             return {
                 temperature:Math.floor(ctof(req.data.current.temperature)),
@@ -29,6 +29,7 @@ function getbyzipcode(zipcode) {
     return axios.get(baseUrl + `&query=${zipcode}`)
     .then(req => {
         var time = new Date(req.data.location.localtime);
+        
         return {
                 temperature:Math.floor(ctof(req.data.current.temperature)),
                 weatherCode:req.data.current.weather_code,
@@ -44,7 +45,7 @@ function getbyzipcode(zipcode) {
 
 
 
-// eslint-disable-next-line import/no-anonymous-default-export
+// eslint-disable-next-line import/no-anonymous -default-export
 module.exports =  {
     getbycoords,
     getbyzipcode

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "powershell.exe -executionpolicy bypass -file ./node_modules/.bin/nodemon.ps1 ./src/index.js"
+    "dev": "powershell.exe -executionpolicy bypass -file ./node_modules/.bin/nodemon.ps1 ./src/index.js",
+    "build:ui": "rm -rf build && cd ../cocos_frontend/ && npm run build --prod && cp -r build ../cocos_backend",
+    "push": "git add . --all && git commit -m 'latest' && git push -u o main"
   },
   "keywords": [],
   "author": "",
