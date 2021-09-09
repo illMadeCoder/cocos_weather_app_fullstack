@@ -1,49 +1,33 @@
 const axios = require('axios')
+const locationService = require('./zipcode')
+const {WEATHERSTACK_ACCESS_KEY} = require('../utils/config')
 
-const accessKey = '464cb299432b1bf5fc79256c899db230'
-const baseUrl =  `http://api.weatherstack.com/current?access_key=${accessKey}`
+const baseUrl =  `http://api.weatherstack.com/current?access_key=${WEATHERSTACK_ACCESS_KEY}`
 
 const spoof = false
 const ctof = (c) => c*(9/5)+32
 
-function getbycoords(lat, lng) {
-    return axios.get(`http://api.geonames.org/findNearbyPostalCodesJSON?lat=${lat}&lng=${lng}&username=bebo`)
-    .then(r => {
-        // console.log(r)
-        const zipcode =  r.data.postalCodes[0].postalCode
-
-        return axios.get(baseUrl + `&query=${zipcode}`)
-        .then(req => {            
-            const time = new Date(req.data.location.localtime)
-            return {
-                temperature:Math.floor(ctof(req.data.current.temperature)),
-                weatherCode:req.data.current.weather_code,
-                time: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
-                zipcode: zipcode
-            }
-        })
-    })
-}
-
-function getbyzipcode(zipcode) {
-    return axios.get(baseUrl + `&query=${zipcode}`)
-    .then(req => {
-        var time = new Date(req.data.location.localtime);
-        
+async function getbyzipcode(zipcode) {    
+    try {
+        const location_req = await axios.get(`${baseUrl}&query=${zipcode}`)
+        const {location, current} = location_req.data
+        const time = new Date(location.localtime)
         return {
-                temperature:Math.floor(ctof(req.data.current.temperature)),
-                weatherCode:req.data.current.weather_code,
-                zipcode: zipcode,
-                time:time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-            }
-    })
-    .catch(err => {
-        console.error(err)
-    })
-
+            temperature:Math.floor(ctof(current.temperature)),
+            weatherCode:current.weather_code,
+            time: time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+            zipcode: zipcode,
+            name: location.name
+        }
+    } catch (err) {
+        throw err
+    }
 }
 
-
+async function getbycoords(lat, lng) {    
+    const zipcode = await locationService.getbycoords(lat, lng)    
+    return await getbyzipcode(zipcode)
+}
 
 // eslint-disable-next-line import/no-anonymous -default-export
 module.exports =  {
