@@ -37,7 +37,8 @@ app.get('/api/location',
       console.log(err)
       response.status(400).send()
     }
-})
+  }
+)
 
 app.listen(process.env.PORT || DEFAULT_PORT)
 
