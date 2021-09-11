@@ -3,6 +3,7 @@ const cors = require('cors')
 const weatherService = require('./services/weather')
 const { request, response } = require('express')
 const {DEFAULT_PORT} = require("./utils/config")
+const logger = require("./utils/logger")
 
 const app = express()
 
@@ -21,7 +22,7 @@ app.use(cors())
 app.use(express.static('build'))
 
 app.get('/api/location', 
-  async (request, response) => {
+  async (request, response, next) => {
     try {
         if (request.query.lat && request.query.lng) {
           const location = await weatherService.getbycoords(request.query.lat, request.query.lng)
@@ -34,11 +35,22 @@ app.get('/api/location',
         }
     } 
     catch (err) {
-      console.log(err)
-      response.status(400).send()
+      next(err)
     }
   }
 )
+
+app.use(function (err, req, res, next) {
+  logger.log('error', err.message)
+  if (err.name === 'WEATHERSERVICE') {
+    if (err.message === 'WEATHERSERVICE_EXCEPTION_ACCESS_KEY_EXPIRED') {
+      res.status(500).send('The weather service we use has hit its use limit this month. Sorry for the inconvenience!')
+    } else {
+      res.status(400).send(err.message)
+    }
+  }
+  res.status(500).send(err.message)  
+})
 
 app.listen(process.env.PORT || DEFAULT_PORT)
 
