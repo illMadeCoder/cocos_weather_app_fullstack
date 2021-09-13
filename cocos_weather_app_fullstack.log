@@ -89,3 +89,4 @@
 {"level":"error","message":"WEATHERSERVICE_EXCEPTION_UNKNOWN: {\"code\":615,\"type\":\"request_failed\",\"info\":\"Your API request failed. Please try again or contact support.\"}"}
 {"level":"error","message":"WEATHERSERVICE_EXCEPTION_UNKNOWN: {\"code\":615,\"type\":\"request_failed\",\"info\":\"Your API request failed. Please try again or contact support.\"}"}
 {"level":"error","message":"WEATHERSERVICE_EXCEPTION_ACCESS_KEY_EXPIRED"}
+{"level":"error","message":"WEATHERSERVICE_EXCEPTION_UNKNOWN: {\"code\":615,\"type\":\"request_failed\",\"info\":\"Your API request failed. Please try again or contact support.\"}"}
