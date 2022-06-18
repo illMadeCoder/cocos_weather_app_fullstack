@@ -16,15 +16,15 @@
   "dependencies": {
     "ajax": "0.0.4",
     "axios": "^0.21.4",
-    "config": "^3.3.7",
+    "config": "^3.3.6",
     "cors": "^2.8.5",
-    "express": "^4.18.1",
-    "winston": "^3.7.2"
+    "express": "^4.17.1",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.5",
-    "jest": "^27.5.1",
-    "nodemon": "^2.0.16"
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.0",
+    "jest": "^27.1.1",
+    "nodemon": "^2.0.12"
   }
 }
